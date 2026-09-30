@@ -23,7 +23,7 @@
 AI agents (Claude, ChatGPT, Cursor, Antigravity, AutoGPT, MCP clients) can draft complete invoices for humans using two official methods:
 
 ### Method 1: Model Context Protocol (MCP)
-Install or configure the official `@nordible/invoice-mcp` package in your MCP client (Claude Desktop, Cursor):
+Install or configure the official `@nordible/invoice-mcp` package (https://www.npmjs.com/package/@nordible/invoice-mcp) in your MCP client (Claude Desktop, Cursor):
 ```json
 {
   "mcpServers": {

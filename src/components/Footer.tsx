@@ -5,6 +5,7 @@ import { SupportedLanguage } from "@/lib/i18n";
 import { ArrowUpRight, Sparkles, Shield, Mail, Phone, MapPin, Bug, Calendar } from "lucide-react";
 import Image from "next/image";
 import { GithubIcon } from "./icons/GithubIcon";
+import { Mascot } from "@/components/mascot/Mascot";
 
 interface FooterProps {
   language: SupportedLanguage;
@@ -68,21 +69,26 @@ export function Footer({ language, variant = "full" }: FooterProps) {
       {/* High-Converting Agency Promo Banner */}
       <div className="border-b border-white/10 bg-gradient-to-r from-[#0D2B75] via-[#145BFF]/30 to-[#0D2B75] py-10 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-1.5 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1 text-xs font-semibold text-[#FF9F1A]">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>{isDe ? "Individuelle Softwareentwicklung & KI" : "Custom Software & AI Engineering"}</span>
+          <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 shrink-0 drop-shadow-xl">
+              <Mascot variant="hero-wave" alt="Nordible Mascot" priority />
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight font-heading">
-              {isDe
-                ? "Benötigen Sie automatisierte Abrechnung oder maßgeschneiderte Software?"
-                : "Need automated billing systems, AI agents, or custom web apps?"}
-            </h2>
-            <p className="text-xs sm:text-sm text-blue-100/70 max-w-2xl">
-              {isDe
-                ? "Nordible Technologies entwickelt skalierbare Webanwendungen, CRM- und Abrechnungsintegrationen mit 100 % Code-Eigentum ab Tag 1."
-                : "Nordible Technologies builds scalable web platforms, automated invoicing APIs, and autonomous AI workflows with 100% intellectual property ownership from Day 1."}
-            </p>
+            <div className="space-y-1.5">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1 text-xs font-semibold text-[#FF9F1A]">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>{isDe ? "Individuelle Softwareentwicklung & KI" : "Custom Software & AI Engineering"}</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight font-heading">
+                {isDe
+                  ? "Benötigen Sie automatisierte Abrechnung oder maßgeschneiderte Software?"
+                  : "Need automated billing systems, AI agents, or custom web apps?"}
+              </h2>
+              <p className="text-xs sm:text-sm text-blue-100/70 max-w-2xl">
+                {isDe
+                  ? "Nordible Technologies entwickelt skalierbare Webanwendungen, CRM- und Abrechnungsintegrationen mit 100 % Code-Eigentum ab Tag 1."
+                  : "Nordible Technologies builds scalable web platforms, automated invoicing APIs, and autonomous AI workflows with 100% intellectual property ownership from Day 1."}
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">

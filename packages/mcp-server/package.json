@@ -4,9 +4,21 @@
   "description": "Model Context Protocol (MCP) server for Nordible Free Invoice Generator (https://invoice.nordible.co)",
   "main": "dist/index.js",
   "bin": {
-    "nordible-invoice-mcp": "./dist/index.js"
+    "nordible-invoice-mcp": "dist/index.js"
   },
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nordible/free-invoice-generator.git",
+    "directory": "packages/mcp-server"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
