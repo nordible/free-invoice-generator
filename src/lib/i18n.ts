@@ -40,6 +40,8 @@ export interface TranslationDictionary {
     preview: string;
     posShort: string;
     autoSaved: string;
+    showMore: string;
+    showLess: string;
   };
   form: {
     pageTitle: string;
@@ -148,6 +150,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
       preview: "Preview",
       posShort: "Item",
       autoSaved: "Auto-saved",
+      showMore: "+ More details",
+      showLess: "- Fewer details",
     },
     form: {
       pageTitle: "Invoice Details",
@@ -254,6 +258,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
       preview: "Vorschau",
       posShort: "Pos.",
       autoSaved: "Automatisch gesichert",
+      showMore: "+ Weitere Angaben",
+      showLess: "- Weniger anzeigen",
     },
     form: {
       pageTitle: "Rechnungsdaten erfassen",
@@ -360,6 +366,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
       preview: "Aperçu",
       posShort: "Ligne",
       autoSaved: "Enregistré auto",
+      showMore: "+ Plus de détails",
+      showLess: "- Moins de détails",
     },
     form: {
       pageTitle: "Détails de la Facture",
@@ -466,6 +474,8 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
       preview: "Vista Previa",
       posShort: "Línea",
       autoSaved: "Guardado automático",
+      showMore: "+ Más detalles",
+      showLess: "- Menos detalles",
     },
     form: {
       pageTitle: "Datos de la Factura",

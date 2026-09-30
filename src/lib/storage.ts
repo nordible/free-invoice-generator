@@ -10,7 +10,15 @@ export function loadSavedInvoice(): InvoiceData {
     const raw = localStorage.getItem(INVOICE_STORAGE_KEY);
     if (!raw) return INITIAL_INVOICE;
     const parsed = JSON.parse(raw);
-    return { ...INITIAL_INVOICE, ...parsed };
+    return {
+      ...INITIAL_INVOICE,
+      ...parsed,
+      company: {
+        ...INITIAL_INVOICE.company,
+        ...(parsed.company || {}),
+        logoUrl: parsed.company?.logoUrl ?? INITIAL_INVOICE.company.logoUrl,
+      },
+    };
   } catch {
     return INITIAL_INVOICE;
   }
