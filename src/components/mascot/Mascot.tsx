@@ -1,21 +1,13 @@
 import React from "react";
 import Image from "next/image";
 
-export type MascotVariant =
-  | "hero-wave"
-  | "security-shield"
-  | "working-laptop"
-  | "mail-send"
-  | "pricing-peek"
-  | "celebrate"
-  | "mail-sorting"
-  | "primary-mascot";
+export type MascotVariant = "hero-wave";
 
 interface MascotProps {
   alt: string;
   className?: string;
   priority?: boolean;
-  variant: MascotVariant;
+  variant?: MascotVariant;
   width?: number;
   height?: number;
 }
@@ -24,7 +16,7 @@ export function Mascot({
   alt,
   className = "",
   priority = false,
-  variant,
+  variant = "hero-wave",
   width,
   height,
 }: MascotProps) {
