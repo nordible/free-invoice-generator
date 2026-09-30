@@ -16,8 +16,17 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 export interface TranslationDictionary {
   appTitle: string;
   appBadge: string;
+  byAuthor: string;
   appSubtitle: string;
   freeBadge: string;
+  leadModal: {
+    badge: string;
+    title: string;
+    message: string;
+    leadPrompt: string;
+    ctaButton: string;
+    closeButton: string;
+  };
   trust: {
     freeTitle: string;
     freeSub: string;
@@ -124,10 +133,19 @@ export interface TranslationDictionary {
 
 export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   en: {
-    appTitle: "Nordible Technologies",
-    appBadge: "Invoice Generator",
-    appSubtitle: "Free & open invoice generator for agencies, startups & freelancers",
-    freeBadge: "100% Free",
+    appTitle: "Invoice Generator App",
+    byAuthor: "by Nordible",
+    appBadge: "100% Free",
+    appSubtitle: "Free, private & open-source invoice generator for freelancers and businesses",
+    freeBadge: "100% Free Forever",
+    leadModal: {
+      badge: "Invoice Generated! 🎉",
+      title: "Your professional invoice is ready",
+      message: "100% free with no watermarks and bank-grade privacy. Developed with care by Nordible Technologies.",
+      leadPrompt: "Need automated billing APIs, custom client portals, or AI systems for your business?",
+      ctaButton: "Explore Custom Software Solutions →",
+      closeButton: "Back to Workspace",
+    },
     trust: {
       freeTitle: "100% Free",
       freeSub: "No subscription or limits",
@@ -232,10 +250,19 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
     },
   },
   de: {
-    appTitle: "Nordible Technologies",
-    appBadge: "Rechnungsersteller",
-    appSubtitle: "Kostenlos & ohne Anmeldung • Für Agenturen, Startups & Freelancer",
-    freeBadge: "100% Kostenlos",
+    appTitle: "Rechnungsersteller App",
+    byAuthor: "von Nordible",
+    appBadge: "100% Kostenlos",
+    appSubtitle: "Kostenlos, quelloffen und mit 100% lokalem Datenschutz",
+    freeBadge: "100% Dauerhaft Kostenlos",
+    leadModal: {
+      badge: "Rechnung erstellt! 🎉",
+      title: "Ihre professionelle Rechnung ist fertig",
+      message: "100% kostenlos ohne Wasserzeichen mit lokalem Datenschutz. Bereitgestellt von Nordible Technologies.",
+      leadPrompt: "Benötigen Sie automatisierte Abrechnung, individuelle Web-Apps oder KI-Agenten für Ihr Unternehmen?",
+      ctaButton: "Softwarelösungen entdecken →",
+      closeButton: "Zurück zum Editor",
+    },
     trust: {
       freeTitle: "100% Kostenlos",
       freeSub: "Ohne Abo oder Limits",
@@ -340,10 +367,19 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
     },
   },
   fr: {
-    appTitle: "Nordible Technologies",
-    appBadge: "Générateur de Factures",
-    appSubtitle: "Générateur de factures gratuit pour agences, startups & freelances",
-    freeBadge: "100% Gratuit",
+    appTitle: "App Générateur de Factures",
+    byAuthor: "par Nordible",
+    appBadge: "100% Gratuit",
+    appSubtitle: "Générateur de factures gratuit, privé et open source pour indépendants et entreprises",
+    freeBadge: "100% Gratuit à Vie",
+    leadModal: {
+      badge: "Facture Prête ! 🎉",
+      title: "Votre facture a été générée avec succès",
+      message: "100% gratuit, sans filigrane et avec une confidentialité totale. Développé par Nordible Technologies.",
+      leadPrompt: "Besoin de facturation automatisée ou d'applications sur-mesure pour votre entreprise ?",
+      ctaButton: "Découvrir nos services →",
+      closeButton: "Fermer",
+    },
     trust: {
       freeTitle: "100% Gratuit",
       freeSub: "Sans abonnement ni limite",
@@ -448,10 +484,19 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
     },
   },
   es: {
-    appTitle: "Nordible Technologies",
-    appBadge: "Generador de Facturas",
-    appSubtitle: "Generador de facturas gratuito para agencias, startups y autónomos",
-    freeBadge: "100% Gratis",
+    appTitle: "App Generador de Facturas",
+    byAuthor: "por Nordible",
+    appBadge: "100% Gratis",
+    appSubtitle: "Generador de facturas gratuito, privado y de código abierto para profesionales y empresas",
+    freeBadge: "100% Gratis para Siempre",
+    leadModal: {
+      badge: "¡Factura Lista! 🎉",
+      title: "Tu factura profesional se generó con éxito",
+      message: "100% gratis, sin marcas de agua y con máxima privacidad. Creado por Nordible Technologies.",
+      leadPrompt: "¿Necesitas facturación automatizada, aplicaciones web a medida o sistemas de IA para tu negocio?",
+      ctaButton: "Conoce nuestros servicios →",
+      closeButton: "Cerrar",
+    },
     trust: {
       freeTitle: "100% Gratis",
       freeSub: "Sin suscripción ni límites",

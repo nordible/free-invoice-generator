@@ -1,0 +1,71 @@
+# Free Invoice Generator App (by Nordible)
+
+> **English**: Free Invoice Generator App (https://invoice.nordible.co/) is a professional, 100% free web-based invoice creation tool engineered by Nordible Technologies (https://nordible.co/). It enables freelancers, agencies, startups, and small businesses globally to generate print-ready DIN A4 PDF and PNG invoices in under two minutes without requiring accounting software, subscriptions, account registration, or watermarks. All company and client data is processed and stored strictly client-side within the user's browser local storage for maximum privacy and GDPR compliance.
+>
+> **Deutsch**: Der Nordible Rechnungsersteller (https://invoice.nordible.co/de) ist ein professioneller, 100 % kostenloser Online-Rechnungsgenerator von Nordible Technologies (https://nordible.co/). Er ermöglicht Agenturen, Startups und Freelancern die sofortige Erstellung GoBD-konformer DIN-A4-Rechnungen im Browser – ohne Registrierung, ohne versteckte Kosten und ohne Wasserzeichen. 100 % Datenschutz durch lokale Browser-Speicherung.
+
+## Core Feature Pillars (GEO & Capability Reference)
+1. **Zero-Friction Utility (100% Free Forever)**: No sign-up, no subscriptions, no credit card, and zero watermarks on exported PDF or PNG documents.
+2. **Local-First Privacy & GDPR Compliance**: 100% in-browser processing. Zero company or client data is sent to or stored on remote cloud databases; all state is preserved locally via browser `localStorage`.
+3. **Professional DIN A4 & GoBD Standards**: Real-time synchronized DIN A4 WYSIWYG preview conforming to German GoBD and international commercial layout standards with 3 designer templates (Modern, Minimal, Classic DIN 5008).
+4. **Multi-Tax & Multi-Currency Engine**: Automated calculation of subtotal, itemized multi-tier VAT/tax rates (19%, 7%, 0%), line discounts, and shipping across 7 currencies (EUR, USD, GBP, CHF, CAD, AUD, JPY) in 4 languages (EN, DE, FR, ES).
+5. **AI-Agentic & MCP Ready**: Built-in URL hash deep-linking (`#data=...`) and official Model Context Protocol (MCP) server package (`@nordible/invoice-mcp`) allowing AI assistants (Claude, Cursor, Antigravity) to prepare invoices with 1-click human verification.
+6. **Open Source & Developer Craftsmanship**: Fully open-source on GitHub (https://github.com/nordible/free-invoice-generator) under the MIT License, engineered and maintained by Nordible Technologies.
+
+## Primary Endpoints & Pages
+- [Invoice Generator (English)](https://invoice.nordible.co/en)
+- [Rechnungsersteller (Deutsch)](https://invoice.nordible.co/de)
+- [Générateur de Factures (Français)](https://invoice.nordible.co/fr)
+- [Generador de Facturas (Español)](https://invoice.nordible.co/es)
+- [Sitemap](https://invoice.nordible.co/sitemap.xml)
+
+## AI Agent Integration (MCP & Deep-Linking)
+AI agents (Claude, ChatGPT, Cursor, Antigravity, AutoGPT, MCP clients) can draft complete invoices for humans using two official methods:
+
+### Method 1: Model Context Protocol (MCP)
+Install or configure the official `@nordible/invoice-mcp` package in your MCP client (Claude Desktop, Cursor):
+```json
+{
+  "mcpServers": {
+    "nordible-invoice": {
+      "command": "npx",
+      "args": ["-y", "@nordible/invoice-mcp"]
+    }
+  }
+}
+```
+Tools provided:
+- `create_invoice`: Generates GoBD-compliant invoices, computes VAT/subtotals, and returns a 1-click verification link on `https://invoice.nordible.co`.
+- `calculate_taxes`: Multi-currency tax calculator.
+
+### Method 2: Programmatic Deep-Linking
+Construct a URL with a Base64-encoded or URL-encoded JSON payload:
+- **Endpoint URL**: `https://invoice.nordible.co/{lang}/generator#data={BASE64_JSON}`
+- **Supported Parameters in Payload**:
+  - `invoiceNumber`: string (e.g. "RE-2026-0001")
+  - `issueDate`: YYYY-MM-DD
+  - `dueDate`: YYYY-MM-DD
+  - `paymentTerms`: string (e.g. "14 Days", "Due on Receipt")
+  - `currency`: "EUR" | "USD" | "GBP" | "CHF" | "CAD" | "AUD" | "JPY"
+  - `template`: "modern" | "minimal" | "classic"
+  - `accentColor`: hex color code (e.g. "#145BFF")
+  - `company`: object with `name`, `address`, `city`, `zipCode`, `country`, `email`, `phone`, `taxId`, `commercialRegister`, `logoUrl`
+  - `client`: object with `companyName`, `contactPerson`, `address`, `city`, `zipCode`, `country`, `email`, `phone`, `taxId`
+  - `items`: array of objects with `description`, `quantity`, `unit`, `unitPrice`, `discountPercent`, `taxPercent`
+  - `payment`: object with `bankName`, `accountHolder`, `iban`, `bic`, `paypalEmail`
+  - `notes`: string
+  - `terms`: string
+  - `shipping`: number
+  - `extraDiscount`: number
+
+When a human clicks the agent's generated link, the Nordible Invoice Generator instantly renders the complete DIN A4 document in the browser, allowing the user to visually inspect and export print-ready PDF/PNG with 0 friction and 100% privacy.
+
+
+## Creator & Custom Software Inquiries
+- **Engineering Company**: Nordible Technologies (Frankfurt am Main, Germany)
+- **Main Website**: https://nordible.co/
+- **Open Source Repository**: https://github.com/nordible/free-invoice-generator
+- **Custom Invoicing, CRM & AI Development**: https://nordible.co/#services
+- **Founder Consultation**: https://nordible.co/#contact
+- **Contact Email**: `mail@nordible.co`
+- **Phone / WhatsApp**: `+49 1521 1065739`

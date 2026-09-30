@@ -1,0 +1,35 @@
+{
+  "name": "@nordible/invoice-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for Nordible Free Invoice Generator (https://invoice.nordible.co)",
+  "main": "dist/index.js",
+  "bin": {
+    "nordible-invoice-mcp": "./dist/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "invoice",
+    "invoice-generator",
+    "nordible",
+    "ai-agent",
+    "claude-desktop",
+    "cursor"
+  ],
+  "author": "Nordible Technologies <mail@nordible.co> (https://nordible.co)",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.31.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "typescript": "^5.7.0"
+  }
+}
