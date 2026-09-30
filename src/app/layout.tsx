@@ -15,9 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Nordible Technologies | Rechnungsersteller (Invoice Generator)",
+  title: "Free Invoice Generator | Nordible Technologies – 100% Free & No Sign-up",
   description:
-    "Erstellen Sie professionelle Rechnungen in unter 2 Minuten. GoBD-konform, mit A4-PDF-Export, flexiblen Vorlagen und automatischer Steuerberechnung.",
+    "Generate professional, branded DIN A4 PDF invoices in under 2 minutes. 100% free, no registration, no watermarks. Client data remains secure and private in your browser.",
   icons: {
     icon: "/images/logos/nordible-icon.png",
     shortcut: "/favicon.ico",
@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="de"
+      lang="en"
       className={`${sora.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-[#FAFBFF] text-gray-900">

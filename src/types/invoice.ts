@@ -1,4 +1,6 @@
-export type CurrencyCode = "EUR" | "USD" | "GBP" | "CHF" | "CAD" | "AUD" | "JPY";
+import { SupportedLanguage } from "@/lib/i18n";
+
+export type CurrencyCode = "USD" | "EUR" | "GBP" | "CHF" | "CAD" | "AUD" | "JPY";
 
 export interface CurrencyConfig {
   code: CurrencyCode;
@@ -26,8 +28,8 @@ export interface CompanyDetails {
   email: string;
   phone: string;
   website?: string;
-  taxId?: string; // Steuernummer / USt-IdNr.
-  commercialRegister?: string; // Handelsregister (z. B. HRB 12345)
+  taxId?: string;
+  commercialRegister?: string;
 }
 
 export interface ClientDetails {
@@ -59,6 +61,7 @@ export interface InvoiceData {
   dueDate: string;
   paymentTerms: string;
   currency: CurrencyCode;
+  language: SupportedLanguage;
   company: CompanyDetails;
   client: ClientDetails;
   items: InvoiceItem[];

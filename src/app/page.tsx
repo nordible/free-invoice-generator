@@ -8,9 +8,10 @@ import { Header } from "@/components/Header";
 import { InvoiceForm } from "@/components/InvoiceForm";
 import { InvoicePreview } from "@/components/InvoicePreview";
 import { MobileActionBar } from "@/components/MobileActionBar";
+import { SupportedLanguage, TRANSLATIONS } from "@/lib/i18n";
 import { toPng } from "html-to-image";
 import confetti from "canvas-confetti";
-import { Printer, Download, CheckCircle2 } from "lucide-react";
+import { Printer, Download, CheckCircle2, Gift, Zap, FileCheck, ShieldCheck } from "lucide-react";
 
 export default function InvoiceGeneratorPage() {
   const [invoice, setInvoice] = useState<InvoiceData>(INITIAL_INVOICE);
@@ -19,6 +20,9 @@ export default function InvoiceGeneratorPage() {
   const [isExporting, setIsExporting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [, startTransition] = useTransition();
+
+  const lang: SupportedLanguage = invoice.language || "en";
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   // Load draft on client mount
   useEffect(() => {
@@ -43,7 +47,7 @@ export default function InvoiceGeneratorPage() {
 
   const handlePrint = useCallback(() => {
     setIsExporting(true);
-    showToast("Druckdialog wird geöffnet...");
+    showToast(lang === "de" ? "Druckdialog wird geöffnet..." : "Opening print dialog...");
 
     try {
       confetti({
@@ -59,14 +63,14 @@ export default function InvoiceGeneratorPage() {
       window.print();
       setIsExporting(false);
     }, 200);
-  }, [showToast]);
+  }, [lang, showToast]);
 
   const handleExportPng = useCallback(async () => {
     const node = document.getElementById("invoice-preview-container");
     if (!node) return;
 
     setIsExporting(true);
-    showToast("PNG-Bild wird generiert...");
+    showToast(lang === "de" ? "PNG-Bild wird generiert..." : "Generating PNG image...");
 
     try {
       const dataUrl = await toPng(node, {
@@ -76,7 +80,7 @@ export default function InvoiceGeneratorPage() {
       });
 
       const link = document.createElement("a");
-      const filename = `Rechnung_${invoice.invoiceNumber || "Export"}.png`;
+      const filename = `Invoice_${invoice.invoiceNumber || "Export"}.png`;
       link.download = filename;
       link.href = dataUrl;
       link.click();
@@ -91,38 +95,47 @@ export default function InvoiceGeneratorPage() {
         console.warn(e);
       }
 
-      showToast(`Gespeichert als ${filename}`);
+      showToast(`${lang === "de" ? "Gespeichert als" : "Saved as"} ${filename}`);
     } catch (err) {
-      console.error("Bild-Export fehlgeschlagen:", err);
-      alert("Bildexport fehlgeschlagen. Bitte versuchen Sie stattdessen die Druckfunktion.");
+      console.error("Image export failed:", err);
+      alert(lang === "de" ? "Bildexport fehlgeschlagen." : "Image export failed. Please try printing to PDF instead.");
     } finally {
       setIsExporting(false);
     }
-  }, [invoice.invoiceNumber, showToast]);
+  }, [invoice.invoiceNumber, lang, showToast]);
 
   const handleResetDemo = useCallback(() => {
-    if (confirm("Möchten Sie die Nordible-Beispieldaten wiederherstellen?")) {
-      setInvoice(INITIAL_INVOICE);
-      saveInvoiceToStorage(INITIAL_INVOICE);
-      showToast("Beispieldaten erfolgreich geladen!");
+    const confirmMsg =
+      lang === "de"
+        ? "Möchten Sie die Beispieldaten wiederherstellen?"
+        : "Reset to default demo invoice data?";
+    if (confirm(confirmMsg)) {
+      setInvoice({ ...INITIAL_INVOICE, language: lang });
+      saveInvoiceToStorage({ ...INITIAL_INVOICE, language: lang });
+      showToast(lang === "de" ? "Beispieldaten geladen!" : "Demo data loaded!");
     }
-  }, [showToast]);
+  }, [lang, showToast]);
 
   const handleClear = useCallback(() => {
-    if (confirm("Möchten Sie alle Rechnungsfelder leeren?")) {
+    const confirmMsg =
+      lang === "de"
+        ? "Möchten Sie alle Rechnungsfelder leeren?"
+        : "Clear all invoice fields?";
+    if (confirm(confirmMsg)) {
       clearInvoiceStorage();
       const emptyInvoice: InvoiceData = {
         ...INITIAL_INVOICE,
-        invoiceNumber: "RE-" + new Date().getFullYear() + "-0001",
+        language: lang,
+        invoiceNumber: "INV-" + new Date().getFullYear() + "-0001",
         items: [
           {
             id: "item-1",
             description: "",
             quantity: 1,
-            unit: "Std.",
+            unit: lang === "de" ? "Std." : "hrs",
             unitPrice: 0,
             discountPercent: 0,
-            taxPercent: 19,
+            taxPercent: 10,
           },
         ],
         shipping: 0,
@@ -131,9 +144,9 @@ export default function InvoiceGeneratorPage() {
         terms: "",
       };
       setInvoice(emptyInvoice);
-      showToast("Formular zurückgesetzt.");
+      showToast(lang === "de" ? "Formular zurückgesetzt." : "Form reset.");
     }
-  }, [showToast]);
+  }, [lang, showToast]);
 
   const handleAddQuickItem = useCallback(() => {
     setInvoice((prev) => ({
@@ -144,10 +157,10 @@ export default function InvoiceGeneratorPage() {
           id: "item-" + Math.random().toString(36).substring(2, 9),
           description: "",
           quantity: 1,
-          unit: "Std.",
+          unit: prev.language === "de" ? "Std." : "hrs",
           unitPrice: 0,
           discountPercent: 0,
-          taxPercent: 19,
+          taxPercent: 10,
         },
       ],
     }));
@@ -158,7 +171,7 @@ export default function InvoiceGeneratorPage() {
       {/* Toast Notification */}
       {toastMessage && (
         <aside
-          aria-label="Benachrichtigung"
+          aria-label="Notification"
           className="no-print fixed top-4 right-4 z-50 flex items-center gap-2 rounded-xl bg-[#0D2B75]/95 text-white px-4 py-2.5 shadow-xl text-xs backdrop-blur-md transition-all animate-bounce border border-white/10"
         >
           <CheckCircle2 className="h-4 w-4 text-[#FF9F1A] shrink-0" />
@@ -166,8 +179,10 @@ export default function InvoiceGeneratorPage() {
         </aside>
       )}
 
-      {/* Top Header */}
+      {/* Top Header with Language Switcher */}
       <Header
+        language={lang}
+        onLanguageChange={(l) => setInvoice((prev) => ({ ...prev, language: l }))}
         template={invoice.template}
         onTemplateChange={(t) => setInvoice((prev) => ({ ...prev, template: t }))}
         accentColor={invoice.accentColor}
@@ -178,6 +193,52 @@ export default function InvoiceGeneratorPage() {
 
       {/* Main Workspace */}
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 pb-28 lg:pb-12">
+        {/* Trust Signals Ribbon */}
+        <section
+          aria-label="Trust Guarantees"
+          className="no-print mb-6 grid grid-cols-2 sm:grid-cols-4 gap-3"
+        >
+          <div className="flex items-center gap-2.5 rounded-2xl border border-[#E8ECF4] bg-white p-3 shadow-xs">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+              <Gift className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-[#0D2B75] leading-tight">{t.trust.freeTitle}</p>
+              <p className="text-[11px] text-slate-500">{t.trust.freeSub}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 rounded-2xl border border-[#E8ECF4] bg-white p-3 shadow-xs">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#145BFF]">
+              <Zap className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-[#0D2B75] leading-tight">{t.trust.noAccountTitle}</p>
+              <p className="text-[11px] text-slate-500">{t.trust.noAccountSub}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 rounded-2xl border border-[#E8ECF4] bg-white p-3 shadow-xs">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-[#FF9F1A]">
+              <FileCheck className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-[#0D2B75] leading-tight">{t.trust.noWatermarkTitle}</p>
+              <p className="text-[11px] text-slate-500">{t.trust.noWatermarkSub}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 rounded-2xl border border-[#E8ECF4] bg-white p-3 shadow-xs">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+              <ShieldCheck className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-[#0D2B75] leading-tight">{t.trust.privacyTitle}</p>
+              <p className="text-[11px] text-slate-500">{t.trust.privacySub}</p>
+            </div>
+          </div>
+        </section>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Form Editor */}
           <div
@@ -188,15 +249,13 @@ export default function InvoiceGeneratorPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-xl font-extrabold tracking-tight text-[#0D2B75] font-heading">
-                  Rechnungsdaten erfassen
+                  {t.form.pageTitle}
                 </h1>
-                <p className="text-xs text-slate-500">
-                  Änderungen werden synchron in der DIN-A4-Vorschau aktualisiert
-                </p>
+                <p className="text-xs text-slate-500">{t.form.pageSubtitle}</p>
               </div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F7FF] border border-[#E8ECF4] px-3 py-1 text-[11px] font-semibold text-[#145BFF]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#145BFF] animate-pulse" />
-                Automatisch gesichert
+                {t.actions.autoSaved}
               </span>
             </div>
 
@@ -214,7 +273,7 @@ export default function InvoiceGeneratorPage() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-[#0D2B75] font-heading">
-                    Live-Vorschau
+                    {t.actions.preview}
                   </span>
                   <span className="rounded-md bg-[#F3F7FF] border border-[#E8ECF4] px-2 py-0.5 text-[10px] font-mono font-semibold text-[#145BFF]">
                     DIN A4
@@ -226,20 +285,20 @@ export default function InvoiceGeneratorPage() {
                     type="button"
                     onClick={handleExportPng}
                     disabled={isExporting}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#E8ECF4] bg-white px-3 py-2 text-xs font-semibold text-[#0D2B75] hover:bg-[#FAFBFF] shadow-xs transition-all disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#E8ECF4] bg-white px-3 py-2 text-xs font-semibold text-[#0D2B75] hover:bg-[#FAFBFF] shadow-xs transition-all disabled:opacity-50 cursor-pointer"
                   >
                     <Download className="h-3.5 w-3.5 text-slate-500" />
-                    <span>Als PNG</span>
+                    <span>{t.actions.exportPng}</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={handlePrint}
                     disabled={isExporting}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#145BFF] px-4 py-2 text-xs font-bold text-white shadow-md shadow-blue-500/20 hover:bg-[#0D2B75] transition-all disabled:opacity-50 active:scale-95"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#145BFF] px-4 py-2 text-xs font-bold text-white shadow-md shadow-blue-500/20 hover:bg-[#0D2B75] transition-all disabled:opacity-50 active:scale-95 cursor-pointer"
                   >
                     <Printer className="h-3.5 w-3.5" />
-                    <span>PDF drucken / speichern</span>
+                    <span>{t.actions.printPdf}</span>
                   </button>
                 </div>
               </div>
@@ -255,6 +314,7 @@ export default function InvoiceGeneratorPage() {
 
       {/* Mobile Fixed Thumb Action Bar */}
       <MobileActionBar
+        language={lang}
         activeTab={mobileTab}
         onTabChange={setMobileTab}
         onPrint={handlePrint}

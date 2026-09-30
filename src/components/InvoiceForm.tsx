@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { InvoiceData, InvoiceItem } from "@/types/invoice";
 import { CURRENCIES, PAYMENT_TERMS_OPTIONS } from "@/lib/constants";
 import { generateInvoiceNumber } from "@/lib/calculations";
+import { TRANSLATIONS } from "@/lib/i18n";
 import { InvoiceItemsTable } from "./InvoiceItemsTable";
 import {
   Building2,
@@ -23,6 +24,7 @@ interface InvoiceFormProps {
 
 export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const t = TRANSLATIONS[invoice.language] || TRANSLATIONS.en;
 
   const handleUpdate = <K extends keyof InvoiceData>(key: K, value: InvoiceData[K]) => {
     onChange({ ...invoice, [key]: value });
@@ -54,7 +56,7 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      alert("Das Logo sollte kleiner als 2 MB sein.");
+      alert("Logo image should be under 2 MB.");
       return;
     }
 
@@ -84,10 +86,10 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
       id: "item-" + Math.random().toString(36).substring(2, 9),
       description: "",
       quantity: 1,
-      unit: "Std.",
+      unit: invoice.language === "de" ? "Std." : "hrs",
       unitPrice: 0,
       discountPercent: 0,
-      taxPercent: 19,
+      taxPercent: 10,
     };
     handleUpdate("items", [...invoice.items, newItem]);
   };
@@ -101,19 +103,20 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
   };
 
   const regenerateNumber = () => {
-    handleUpdate("invoiceNumber", generateInvoiceNumber("RE"));
+    const prefix = invoice.language === "de" ? "RE" : "INV";
+    handleUpdate("invoiceNumber", generateInvoiceNumber(prefix));
   };
 
   return (
     <div className="space-y-6">
-      {/* 1. Absender & Logo */}
+      {/* 1. Sender (Your Business) */}
       <section className="rounded-2xl border border-[#E8ECF4] bg-white p-5 shadow-xs transition-all hover:shadow-md hover:shadow-blue-500/5">
         <div className="flex items-center gap-2 mb-4">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F3F7FF] text-[#145BFF]">
             <Building2 className="h-4 w-4" />
           </div>
           <h2 className="text-sm font-bold text-[#0D2B75] font-heading">
-            1. Absender (Ihr Unternehmen)
+            {t.form.senderTitle}
           </h2>
         </div>
 
@@ -125,14 +128,14 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={invoice.company.logoUrl}
-                  alt="Firmenlogo"
+                  alt="Company Logo"
                   className="max-h-full max-w-full object-contain"
                 />
                 <button
                   type="button"
                   onClick={removeLogo}
-                  title="Logo entfernen"
-                  className="absolute top-1 right-1 rounded-full bg-[#0D2B75]/80 p-1 text-white hover:bg-rose-600 transition-colors"
+                  title="Remove logo"
+                  className="absolute top-1 right-1 rounded-full bg-[#0D2B75]/80 p-1 text-white hover:bg-rose-600 transition-colors cursor-pointer"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -141,10 +144,10 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex h-16 w-36 flex-col items-center justify-center rounded-xl border border-dashed border-[#E8ECF4] bg-[#FAFBFF] text-slate-500 hover:border-[#145BFF] hover:bg-[#F3F7FF] transition-all text-center px-2"
+                className="flex h-16 w-36 flex-col items-center justify-center rounded-xl border border-dashed border-[#E8ECF4] bg-[#FAFBFF] text-slate-500 hover:border-[#145BFF] hover:bg-[#F3F7FF] transition-all text-center px-2 cursor-pointer"
               >
                 <Upload className="h-4 w-4 text-[#145BFF] mb-1" />
-                <span className="text-[11px] font-semibold text-slate-700">Logo hochladen</span>
+                <span className="text-[11px] font-semibold text-slate-700">{t.form.uploadLogo}</span>
               </button>
             )}
             <input
@@ -155,33 +158,33 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
               onChange={handleLogoUpload}
             />
             <div className="text-xs text-slate-500">
-              <span className="font-semibold text-[#0D2B75] block">Firmenlogo (Optional)</span>
-              PNG, JPG oder SVG (max. 2 MB)
+              <span className="font-semibold text-[#0D2B75] block">{t.form.uploadLogo}</span>
+              {t.form.logoHint}
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Firmenname / Ihr Name *
+                {t.form.companyName}
               </label>
               <input
                 type="text"
                 value={invoice.company.name}
                 onChange={(e) => handleCompanyUpdate("name", e.target.value)}
-                placeholder="z. B. Nordible Technologies GmbH"
+                placeholder={t.form.companyNamePlaceholder}
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Straße & Hausnummer
+                {t.form.address}
               </label>
               <input
                 type="text"
                 value={invoice.company.address}
                 onChange={(e) => handleCompanyUpdate("address", e.target.value)}
-                placeholder="Friedrichstraße 123"
+                placeholder={t.form.addressPlaceholder}
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
@@ -189,32 +192,32 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
 
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">PLZ</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.zipCode}</label>
               <input
                 type="text"
                 value={invoice.company.zipCode}
                 onChange={(e) => handleCompanyUpdate("zipCode", e.target.value)}
-                placeholder="10117"
+                placeholder="10001"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Stadt</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.city}</label>
               <input
                 type="text"
                 value={invoice.company.city}
                 onChange={(e) => handleCompanyUpdate("city", e.target.value)}
-                placeholder="Berlin"
+                placeholder="New York"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Land</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.country}</label>
               <input
                 type="text"
                 value={invoice.company.country}
                 onChange={(e) => handleCompanyUpdate("country", e.target.value)}
-                placeholder="Deutschland"
+                placeholder="United States"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
@@ -222,7 +225,7 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">E-Mail</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.email}</label>
               <input
                 type="email"
                 value={invoice.company.email}
@@ -232,12 +235,12 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Telefon</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.phone}</label>
               <input
                 type="text"
                 value={invoice.company.phone}
                 onChange={(e) => handleCompanyUpdate("phone", e.target.value)}
-                placeholder="+49 30 12345678"
+                placeholder="+1 (415) 800-4290"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
@@ -246,25 +249,25 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Steuernummer / USt-IdNr.
+                {t.form.taxId}
               </label>
               <input
                 type="text"
                 value={invoice.company.taxId || ""}
                 onChange={(e) => handleCompanyUpdate("taxId", e.target.value)}
-                placeholder="DE314159265"
+                placeholder="US-84-2938102"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Handelsregister (Optional)
+                {t.form.commercialRegister}
               </label>
               <input
                 type="text"
                 value={invoice.company.commercialRegister || ""}
                 onChange={(e) => handleCompanyUpdate("commercialRegister", e.target.value)}
-                placeholder="HRB 98765 B (Amtsgericht Berlin)"
+                placeholder="Reg #12345"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
@@ -272,14 +275,14 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
         </div>
       </section>
 
-      {/* 2. Rechnungsempfänger */}
+      {/* 2. Client (Recipient) */}
       <section className="rounded-2xl border border-[#E8ECF4] bg-white p-5 shadow-xs transition-all hover:shadow-md hover:shadow-blue-500/5">
         <div className="flex items-center gap-2 mb-4">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F3F7FF] text-[#145BFF]">
             <UserCheck className="h-4 w-4" />
           </div>
           <h2 className="text-sm font-bold text-[#0D2B75] font-heading">
-            2. Rechnungsempfänger (Kunde)
+            {t.form.clientTitle}
           </h2>
         </div>
 
@@ -287,25 +290,25 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Kundenname / Firma *
+                {t.form.clientName}
               </label>
               <input
                 type="text"
                 value={invoice.client.companyName}
                 onChange={(e) => handleClientUpdate("companyName", e.target.value)}
-                placeholder="Musterkunde GmbH"
+                placeholder={t.form.clientNamePlaceholder}
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Ansprechpartner (Optional)
+                {t.form.contactPerson}
               </label>
               <input
                 type="text"
                 value={invoice.client.contactPerson || ""}
                 onChange={(e) => handleClientUpdate("contactPerson", e.target.value)}
-                placeholder="z. B. Max Mustermann"
+                placeholder="e.g. Jane Doe"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
@@ -313,45 +316,45 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
 
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1">
-              Straße & Hausnummer
+              {t.form.address}
             </label>
             <input
               type="text"
               value={invoice.client.address}
               onChange={(e) => handleClientUpdate("address", e.target.value)}
-              placeholder="Kundenstraße 45"
+              placeholder="742 Evergreen Terrace"
               className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
             />
           </div>
 
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">PLZ</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.zipCode}</label>
               <input
                 type="text"
                 value={invoice.client.zipCode}
                 onChange={(e) => handleClientUpdate("zipCode", e.target.value)}
-                placeholder="80331"
+                placeholder="10001"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Stadt</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.city}</label>
               <input
                 type="text"
                 value={invoice.client.city}
                 onChange={(e) => handleClientUpdate("city", e.target.value)}
-                placeholder="München"
+                placeholder="New York"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Land</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.country}</label>
               <input
                 type="text"
                 value={invoice.client.country}
                 onChange={(e) => handleClientUpdate("country", e.target.value)}
-                placeholder="Deutschland"
+                placeholder="United States"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
@@ -360,25 +363,25 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                E-Mail des Kunden
+                {t.form.email}
               </label>
               <input
                 type="email"
                 value={invoice.client.email || ""}
                 onChange={(e) => handleClientUpdate("email", e.target.value)}
-                placeholder="buchhaltung@kunde.de"
+                placeholder="billing@client.com"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                USt-IdNr. des Kunden (Optional)
+                {t.form.clientTaxId}
               </label>
               <input
                 type="text"
                 value={invoice.client.taxId || ""}
                 onChange={(e) => handleClientUpdate("taxId", e.target.value)}
-                placeholder="DE987654321"
+                placeholder="TAX-ID-9921"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden transition-all"
               />
             </div>
@@ -386,14 +389,14 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
         </div>
       </section>
 
-      {/* 3. Rechnungsdaten & Konditionen */}
+      {/* 3. Invoice Details & Terms */}
       <section className="rounded-2xl border border-[#E8ECF4] bg-white p-5 shadow-xs transition-all hover:shadow-md hover:shadow-blue-500/5">
         <div className="flex items-center gap-2 mb-4">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F3F7FF] text-[#145BFF]">
             <Calendar className="h-4 w-4" />
           </div>
           <h2 className="text-sm font-bold text-[#0D2B75] font-heading">
-            3. Rechnungsdetails & Fristen
+            {t.form.invoiceDetailsTitle}
           </h2>
         </div>
 
@@ -401,21 +404,21 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Rechnungsnummer *
+                {t.form.invoiceNumber}
               </label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={invoice.invoiceNumber}
                   onChange={(e) => handleUpdate("invoiceNumber", e.target.value)}
-                  placeholder="RE-2026-0001"
+                  placeholder="INV-2026-0001"
                   className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden font-mono"
                 />
                 <button
                   type="button"
                   onClick={regenerateNumber}
-                  title="Neue Rechnungsnummer generieren"
-                  className="rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-2.5 py-2 text-slate-600 hover:text-[#145BFF] hover:bg-white transition-colors"
+                  title="Generate new invoice number"
+                  className="rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-2.5 py-2 text-slate-600 hover:text-[#145BFF] hover:bg-white transition-colors cursor-pointer"
                 >
                   <RefreshCw className="h-3.5 w-3.5" />
                 </button>
@@ -423,7 +426,7 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Währung</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.currency}</label>
               <select
                 value={invoice.currency}
                 onChange={(e) => handleUpdate("currency", e.target.value as InvoiceData["currency"])}
@@ -441,7 +444,7 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Rechnungsdatum *
+                {t.form.issueDate}
               </label>
               <input
                 type="date"
@@ -452,7 +455,7 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Fälligkeitsdatum *
+                {t.form.dueDate}
               </label>
               <input
                 type="date"
@@ -463,7 +466,7 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Zahlungsziel
+                {t.form.paymentTerms}
               </label>
               <select
                 value={invoice.paymentTerms}
@@ -481,21 +484,22 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
         </div>
       </section>
 
-      {/* 4. Positionen */}
+      {/* 4. Items & Services */}
       <section className="rounded-2xl border border-[#E8ECF4] bg-white p-5 shadow-xs transition-all hover:shadow-md hover:shadow-blue-500/5">
         <InvoiceItemsTable
           items={invoice.items}
           currency={invoice.currency}
+          language={invoice.language}
           onUpdateItem={handleItemUpdate}
           onAddItem={handleAddItem}
           onRemoveItem={handleRemoveItem}
         />
 
-        {/* Zusätzliche Anpassungen: Versandkosten & Gesamtrabatt */}
+        {/* Shipping & Extra Discount */}
         <div className="mt-4 pt-4 border-t border-[#E8ECF4] grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1">
-              Versandkosten / Pauschale ({CURRENCIES[invoice.currency]?.symbol})
+              {t.form.shipping} ({CURRENCIES[invoice.currency]?.symbol})
             </label>
             <input
               type="number"
@@ -509,7 +513,7 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
           </div>
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1">
-              Zusätzlicher Gesamtrabatt ({CURRENCIES[invoice.currency]?.symbol})
+              {t.form.extraDiscount} ({CURRENCIES[invoice.currency]?.symbol})
             </label>
             <input
               type="number"
@@ -524,36 +528,36 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
         </div>
       </section>
 
-      {/* 5. Zahlungsinformationen */}
+      {/* 5. Payment & Bank Information */}
       <section className="rounded-2xl border border-[#E8ECF4] bg-white p-5 shadow-xs transition-all hover:shadow-md hover:shadow-blue-500/5">
         <div className="flex items-center gap-2 mb-4">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F3F7FF] text-[#145BFF]">
             <CreditCard className="h-4 w-4" />
           </div>
           <h2 className="text-sm font-bold text-[#0D2B75] font-heading">
-            5. Zahlung & Bankverbindung
+            {t.form.paymentTitle}
           </h2>
         </div>
 
         <div className="space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Bankname</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.bankName}</label>
               <input
                 type="text"
                 value={invoice.payment.bankName}
                 onChange={(e) => handlePaymentUpdate("bankName", e.target.value)}
-                placeholder="Berliner Sparkasse"
+                placeholder="Silicon Valley Bank"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Kontoinhaber</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.accountHolder}</label>
               <input
                 type="text"
                 value={invoice.payment.accountHolder}
                 onChange={(e) => handlePaymentUpdate("accountHolder", e.target.value)}
-                placeholder="Nordible Technologies GmbH"
+                placeholder="Nordible Technologies Inc."
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden"
               />
             </div>
@@ -561,22 +565,22 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">IBAN *</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.iban}</label>
               <input
                 type="text"
                 value={invoice.payment.iban}
                 onChange={(e) => handlePaymentUpdate("iban", e.target.value)}
-                placeholder="DE89 1005 0000 1234 5678 90"
+                placeholder="US89 SVBK 0000 1234 5678 90"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden font-mono"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">BIC / SWIFT</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1">{t.form.bic}</label>
               <input
                 type="text"
                 value={invoice.payment.bic}
                 onChange={(e) => handlePaymentUpdate("bic", e.target.value)}
-                placeholder="BELADEBEXXX"
+                placeholder="SVBKUS6SXXX"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden font-mono"
               />
             </div>
@@ -585,19 +589,19 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Verwendungszweck-Hinweis
+                {t.form.paymentNotice}
               </label>
               <input
                 type="text"
                 value={invoice.payment.paymentNotice || ""}
                 onChange={(e) => handlePaymentUpdate("paymentNotice", e.target.value)}
-                placeholder="Bitte Rechnungsnummer angeben"
+                placeholder="Please state invoice number"
                 className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden"
               />
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">
-                PayPal-Adresse (Optional)
+                {t.form.paypalEmail}
               </label>
               <input
                 type="email"
@@ -611,40 +615,40 @@ export function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
         </div>
       </section>
 
-      {/* 6. Notizen & Geschäftsbedingungen */}
+      {/* 6. Notes & Terms */}
       <section className="rounded-2xl border border-[#E8ECF4] bg-white p-5 shadow-xs transition-all hover:shadow-md hover:shadow-blue-500/5">
         <div className="flex items-center gap-2 mb-4">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F3F7FF] text-[#145BFF]">
             <FileSignature className="h-4 w-4" />
           </div>
           <h2 className="text-sm font-bold text-[#0D2B75] font-heading">
-            6. Bemerkungen & Konditionen
+            {t.form.notesTitle}
           </h2>
         </div>
 
         <div className="space-y-3">
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1">
-              Dankschreiben / Notiz an den Kunden
+              {t.form.notes}
             </label>
             <textarea
               rows={2}
               value={invoice.notes}
               onChange={(e) => handleUpdate("notes", e.target.value)}
-              placeholder="Vielen Dank für Ihren Auftrag und die gute Zusammenarbeit!"
+              placeholder={t.form.notesPlaceholder}
               className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden"
             />
           </div>
 
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1">
-              Zahlungsbedingungen & Hinweise (z. B. Kleinunternehmer § 19 UStG)
+              {t.form.terms}
             </label>
             <textarea
               rows={2}
               value={invoice.terms}
               onChange={(e) => handleUpdate("terms", e.target.value)}
-              placeholder="Zahlbar sofort nach Erhalt der Rechnung ohne Abzug."
+              placeholder={t.form.termsPlaceholder}
               className="w-full rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-3 py-2 text-xs text-slate-800 focus:border-[#145BFF] focus:bg-white focus:outline-hidden"
             />
           </div>

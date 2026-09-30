@@ -3,10 +3,13 @@
 import React from "react";
 import { ACCENT_COLORS } from "@/lib/constants";
 import { TemplateId } from "@/types/invoice";
-import { RotateCcw, Sparkles } from "lucide-react";
+import { SupportedLanguage, SUPPORTED_LANGUAGES, TRANSLATIONS } from "@/lib/i18n";
+import { RotateCcw, Sparkles, Globe } from "lucide-react";
 import Image from "next/image";
 
 interface HeaderProps {
+  language: SupportedLanguage;
+  onLanguageChange: (lang: SupportedLanguage) => void;
   template: TemplateId;
   onTemplateChange: (t: TemplateId) => void;
   accentColor: string;
@@ -16,6 +19,8 @@ interface HeaderProps {
 }
 
 export function Header({
+  language,
+  onLanguageChange,
   template,
   onTemplateChange,
   accentColor,
@@ -23,11 +28,13 @@ export function Header({
   onResetDemo,
   onClear,
 }: HeaderProps) {
+  const t = TRANSLATIONS[language] || TRANSLATIONS.en;
+
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-[#E8ECF4] bg-white/90 backdrop-blur-md shadow-xs">
+    <header className="no-print sticky top-0 z-40 border-b border-[#E8ECF4] bg-white/95 backdrop-blur-md shadow-xs">
       <div className="mx-auto max-w-7xl px-4 py-3.5 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          {/* Brand Logo & Title matching Nordible portfolio */}
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          {/* Brand Logo & Title */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5 shadow-md shadow-blue-500/10 border border-[#E8ECF4] shrink-0">
               <Image
@@ -40,22 +47,41 @@ export function Header({
               />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="text-lg sm:text-xl font-extrabold text-[#0D2B75] font-heading tracking-tight">
-                  Nordible Technologies
+                  {t.appTitle}
                 </span>
                 <span className="rounded-md bg-[#F3F7FF] border border-[#E8ECF4] px-2 py-0.5 text-xs font-semibold text-[#145BFF]">
-                  Rechnungsersteller
+                  {t.appBadge}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-xs font-bold text-emerald-700 shadow-xs">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {t.freeBadge}
                 </span>
               </div>
-              <p className="text-xs text-slate-500 font-sans">
-                Offizieller Rechnungsgenerator für Agenturen, Startups & Freelancer
-              </p>
+              <p className="text-xs text-slate-500 font-sans">{t.appSubtitle}</p>
             </div>
           </div>
 
-          {/* Quick controls: Template & Theme Color */}
+          {/* Controls: Language, Template, Theme Color, Demo & Clear */}
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            {/* Language Switcher */}
+            <div className="relative inline-flex items-center rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-2.5 py-1.5">
+              <Globe className="h-3.5 w-3.5 text-[#145BFF] mr-1.5 shrink-0" />
+              <select
+                aria-label="Language / Sprache"
+                value={language}
+                onChange={(e) => onLanguageChange(e.target.value as SupportedLanguage)}
+                className="bg-transparent text-xs font-bold text-[#0D2B75] focus:outline-hidden cursor-pointer"
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.flag} {lang.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Template Selector */}
             <div className="flex items-center rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] p-1">
               <button
@@ -89,13 +115,13 @@ export function Header({
                     : "text-slate-600 hover:text-[#0D2B75]"
                 }`}
               >
-                Klassisch
+                Classic
               </button>
             </div>
 
             {/* Accent Color Picker */}
-            <div className="flex items-center gap-1.5 rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-2.5 py-1.5">
-              <span className="text-[11px] font-medium text-slate-500">Akzent:</span>
+            <div className="flex items-center gap-1.5 rounded-xl border border-[#E8ECF4] bg-[#FAFBFF] px-2 py-1.5">
+              <span className="text-[11px] font-medium text-slate-500">{t.actions.color}:</span>
               <div className="flex items-center gap-1">
                 {ACCENT_COLORS.map((c) => (
                   <button
@@ -118,19 +144,19 @@ export function Header({
                 type="button"
                 onClick={onResetDemo}
                 className="flex items-center gap-1.5 rounded-xl border border-[#E8ECF4] bg-white px-3 py-1.5 text-xs font-semibold text-[#0D2B75] hover:bg-[#FAFBFF] transition-colors shadow-xs"
-                title="Beispieldaten laden"
+                title={t.actions.loadDemo}
               >
                 <Sparkles className="h-3.5 w-3.5 text-[#FF9F1A]" />
-                <span className="hidden sm:inline">Beispieldaten</span>
+                <span className="hidden sm:inline">{t.actions.loadDemo}</span>
               </button>
               <button
                 type="button"
                 onClick={onClear}
                 className="flex items-center gap-1.5 rounded-xl border border-[#E8ECF4] bg-white px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors shadow-xs"
-                title="Formular zurücksetzen"
+                title={t.actions.clear}
               >
                 <RotateCcw className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Leeren</span>
+                <span className="hidden sm:inline">{t.actions.clear}</span>
               </button>
             </div>
           </div>
