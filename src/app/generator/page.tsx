@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Invoice Generator Workspace — Free Invoice Generator App",
   description: "Create and export clean DIN A4 PDF and PNG invoices online for free.",
   alternates: {
-    canonical: "https://invoice.nordible.co/en/generator",
+    canonical: "https://free-invoice-generator.nordible.co/en/generator",
   },
 };
 

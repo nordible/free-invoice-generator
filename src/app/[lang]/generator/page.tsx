@@ -18,7 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   const validLang = (["en", "de", "fr", "es"].includes(lang) ? lang : "en") as SupportedLanguage;
-  const baseUrl = "https://invoice.nordible.co";
+  const baseUrl = "https://free-invoice-generator.nordible.co";
 
   const titles: Record<SupportedLanguage, string> = {
     en: "Invoice Generator Workspace — Free Invoice Generator App",

@@ -1,8 +1,8 @@
 # Free Invoice Generator App (by Nordible)
 
-> **English**: Free Invoice Generator App (https://invoice.nordible.co/) is a professional, 100% free web-based invoice creation tool engineered by Nordible Technologies (https://nordible.co/). It enables freelancers, agencies, startups, and small businesses globally to generate print-ready DIN A4 PDF and PNG invoices in under two minutes without requiring accounting software, subscriptions, account registration, or watermarks. All company and client data is processed and stored strictly client-side within the user's browser local storage for maximum privacy and GDPR compliance.
+> **English**: Free Invoice Generator App (https://free-invoice-generator.nordible.co/) is a professional, 100% free web-based invoice creation tool engineered by Nordible Technologies (https://nordible.co/). It enables freelancers, agencies, startups, and small businesses globally to generate print-ready DIN A4 PDF and PNG invoices in under two minutes without requiring accounting software, subscriptions, account registration, or watermarks. All company and client data is processed and stored strictly client-side within the user's browser local storage for maximum privacy and GDPR compliance.
 >
-> **Deutsch**: Der Nordible Rechnungsersteller (https://invoice.nordible.co/de) ist ein professioneller, 100 % kostenloser Online-Rechnungsgenerator von Nordible Technologies (https://nordible.co/). Er ermöglicht Agenturen, Startups und Freelancern die sofortige Erstellung GoBD-konformer DIN-A4-Rechnungen im Browser – ohne Registrierung, ohne versteckte Kosten und ohne Wasserzeichen. 100 % Datenschutz durch lokale Browser-Speicherung.
+> **Deutsch**: Der Nordible Rechnungsersteller (https://free-invoice-generator.nordible.co/de) ist ein professioneller, 100 % kostenloser Online-Rechnungsgenerator von Nordible Technologies (https://nordible.co/). Er ermöglicht Agenturen, Startups und Freelancern die sofortige Erstellung GoBD-konformer DIN-A4-Rechnungen im Browser – ohne Registrierung, ohne versteckte Kosten und ohne Wasserzeichen. 100 % Datenschutz durch lokale Browser-Speicherung.
 
 ## Core Feature Pillars (GEO & Capability Reference)
 1. **Zero-Friction Utility (100% Free Forever)**: No sign-up, no subscriptions, no credit card, and zero watermarks on exported PDF or PNG documents.
@@ -13,11 +13,11 @@
 6. **Open Source & Developer Craftsmanship**: Fully open-source on GitHub (https://github.com/nordible/free-invoice-generator) under the MIT License, engineered and maintained by Nordible Technologies.
 
 ## Primary Endpoints & Pages
-- [Invoice Generator (English)](https://invoice.nordible.co/en)
-- [Rechnungsersteller (Deutsch)](https://invoice.nordible.co/de)
-- [Générateur de Factures (Français)](https://invoice.nordible.co/fr)
-- [Generador de Facturas (Español)](https://invoice.nordible.co/es)
-- [Sitemap](https://invoice.nordible.co/sitemap.xml)
+- [Invoice Generator (English)](https://free-invoice-generator.nordible.co/en)
+- [Rechnungsersteller (Deutsch)](https://free-invoice-generator.nordible.co/de)
+- [Générateur de Factures (Français)](https://free-invoice-generator.nordible.co/fr)
+- [Generador de Facturas (Español)](https://free-invoice-generator.nordible.co/es)
+- [Sitemap](https://free-invoice-generator.nordible.co/sitemap.xml)
 
 ## AI Agent Integration (MCP & Deep-Linking)
 AI agents (Claude, ChatGPT, Cursor, Antigravity, AutoGPT, MCP clients) can draft complete invoices for humans using two official methods:
@@ -35,12 +35,12 @@ Install or configure the official `@nordible/invoice-mcp` package (https://www.n
 }
 ```
 Tools provided:
-- `create_invoice`: Generates GoBD-compliant invoices, computes VAT/subtotals, and returns a 1-click verification link on `https://invoice.nordible.co`.
+- `create_invoice`: Generates GoBD-compliant invoices, computes VAT/subtotals, and returns a 1-click verification link on `https://free-invoice-generator.nordible.co`.
 - `calculate_taxes`: Multi-currency tax calculator.
 
 ### Method 2: Programmatic Deep-Linking
 Construct a URL with a Base64-encoded or URL-encoded JSON payload:
-- **Endpoint URL**: `https://invoice.nordible.co/{lang}/generator#data={BASE64_JSON}`
+- **Endpoint URL**: `https://free-invoice-generator.nordible.co/{lang}/generator#data={BASE64_JSON}`
 - **Supported Parameters in Payload**:
   - `invoiceNumber`: string (e.g. "RE-2026-0001")
   - `issueDate`: YYYY-MM-DD

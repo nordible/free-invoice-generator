@@ -6,7 +6,7 @@ interface StructuredDataProps {
 }
 
 export function StructuredData({ language }: StructuredDataProps) {
-  const baseUrl = "https://invoice.nordible.co";
+  const baseUrl = "https://free-invoice-generator.nordible.co";
 
   const appSchema = {
     "@context": "https://schema.org",
@@ -99,7 +99,7 @@ export function StructuredData({ language }: StructuredDataProps) {
         name: "Can AI agents (Claude, Cursor, ChatGPT) create invoices with this tool?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. AI agents can create pre-filled invoices using URL deep-linking (#data=...) or via the official Model Context Protocol (MCP) server package (@nordible/invoice-mcp) with 1-click human verification on https://invoice.nordible.co.",
+          text: "Yes. AI agents can create pre-filled invoices using URL deep-linking (#data=...) or via the official Model Context Protocol (MCP) server package (@nordible/invoice-mcp) with 1-click human verification on https://free-invoice-generator.nordible.co.",
         },
       },
       {

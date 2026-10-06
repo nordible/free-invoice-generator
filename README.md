@@ -11,7 +11,7 @@
 
 **100% Free Forever • Privacy-First • No Watermarks • No Registration • Human & AI-Agent Ready**
 
-[Live Web Application](https://invoice.nordible.co) • [MCP Server on npm (`@nordible/invoice-mcp`)](https://www.npmjs.com/package/@nordible/invoice-mcp) • [Nordible Technologies](https://nordible.co)
+[Live Web Application](https://free-invoice-generator.nordible.co) • [MCP Server on npm (`@nordible/invoice-mcp`)](https://www.npmjs.com/package/@nordible/invoice-mcp) • [Nordible Technologies](https://nordible.co)
 
 </div>
 

@@ -6,19 +6,19 @@ export const metadata: Metadata = {
   description:
     "Create and download clean DIN A4 PDF invoices in under 2 minutes. 100% free, no registration, no watermarks. Client data remains 100% private in your browser.",
   alternates: {
-    canonical: "https://invoice.nordible.co/en",
+    canonical: "https://free-invoice-generator.nordible.co/en",
     languages: {
-      en: "https://invoice.nordible.co/en",
-      de: "https://invoice.nordible.co/de",
-      fr: "https://invoice.nordible.co/fr",
-      es: "https://invoice.nordible.co/es",
+      en: "https://free-invoice-generator.nordible.co/en",
+      de: "https://free-invoice-generator.nordible.co/de",
+      fr: "https://free-invoice-generator.nordible.co/fr",
+      es: "https://free-invoice-generator.nordible.co/es",
     },
   },
   openGraph: {
     title: "Free Invoice Generator App — 100% Free & Open Source",
     description:
       "Create professional invoices in under 2 minutes. 100% free, no registration, no watermarks.",
-    url: "https://invoice.nordible.co/",
+    url: "https://free-invoice-generator.nordible.co/",
     siteName: "Free Invoice Generator App",
     locale: "en_US",
     type: "website",

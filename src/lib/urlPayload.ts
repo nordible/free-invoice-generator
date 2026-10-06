@@ -171,7 +171,7 @@ export function buildInvoiceDeepLink(
   lang = "en",
   baseUrl?: string
 ): string {
-  const base = baseUrl || (typeof window !== "undefined" ? window.location.origin : "https://invoice.nordible.co");
+  const base = baseUrl || (typeof window !== "undefined" ? window.location.origin : "https://free-invoice-generator.nordible.co");
   const payload = encodeInvoicePayload(invoice);
   return `${base}/${lang}/generator#data=${payload}`;
 }

@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://invoice.nordible.co/sitemap.xml",
+    sitemap: "https://free-invoice-generator.nordible.co/sitemap.xml",
   };
 }

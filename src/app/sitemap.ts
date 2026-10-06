@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://invoice.nordible.co";
+  const baseUrl = "https://free-invoice-generator.nordible.co";
   const languages = ["en", "de", "fr", "es"];
 
   const landingAlternates = {

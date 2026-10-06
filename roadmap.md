@@ -8,7 +8,7 @@
 
 **Target Platform:** Web Application
 
-**Suggested URL:** `invoice.nordible.co`
+**Suggested URL:** `free-invoice-generator.nordible.co`
 
 ---
 

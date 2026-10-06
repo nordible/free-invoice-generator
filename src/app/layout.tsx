@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://invoice.nordible.co"),
+  metadataBase: new URL("https://free-invoice-generator.nordible.co"),
   title: "Free Invoice Generator App — 100% Free, No Watermark, No Sign-up",
   description:
     "Generate professional, branded DIN A4 PDF invoices in under 2 minutes. 100% free, no registration, no watermarks. Client data remains secure and private in your browser.",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://invoice.nordible.co",
+    url: "https://free-invoice-generator.nordible.co",
     title: "Free Invoice Generator App — 100% Free, No Watermark, No Sign-up",
     description:
       "Generate professional, branded DIN A4 PDF invoices in under 2 minutes. 100% free, no registration, no watermarks. Local privacy guaranteed.",
