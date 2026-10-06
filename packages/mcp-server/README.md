@@ -5,9 +5,9 @@
 [![npm version](https://img.shields.io/npm/v/@nordible/invoice-mcp.svg?style=flat-square)](https://www.npmjs.com/package/@nordible/invoice-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![MCP Standard](https://img.shields.io/badge/MCP-Standard%20v1.0-orange.svg?style=flat-square)](https://modelcontextprotocol.io/)
-[![Zero Server](https://img.shields.io/badge/Privacy-100%25%20Client--Side-emerald.svg?style=flat-square)](https://invoice.nordible.co)
+[![Zero Server](https://img.shields.io/badge/Privacy-100%25%20Client--Side-emerald.svg?style=flat-square)](https://free-invoice-generator.nordible.co)
 
-**Official Model Context Protocol (MCP) Server for the [Nordible Free Invoice Generator](https://invoice.nordible.co)**
+**Official Model Context Protocol (MCP) Server for the [Nordible Free Invoice Generator](https://free-invoice-generator.nordible.co)**
 
 Draft professional, GoBD-compliant DIN A4 invoices, calculate statutory multi-currency taxes, and generate 1-click human-in-the-loop review links directly inside Claude Desktop, Cursor, Antigravity, and AI Agents.
 
@@ -17,7 +17,7 @@ Draft professional, GoBD-compliant DIN A4 invoices, calculate statutory multi-cu
 
 ## Why Use This MCP Server?
 
-1. **Human-in-the-Loop Privacy**: AI drafts the invoice, but the user always has the final review. The server generates a zero-backend URL deep link (`https://invoice.nordible.co/{lang}/generator#data=...`) where the user can visually inspect the DIN A4 layout and print to PDF. No financial data is ever transmitted or stored on remote servers.
+1. **Human-in-the-Loop Privacy**: AI drafts the invoice, but the user always has the final review. The server generates a zero-backend URL deep link (`https://free-invoice-generator.nordible.co/{lang}/generator#data=...`) where the user can visually inspect the DIN A4 layout and print to PDF. No financial data is ever transmitted or stored on remote servers.
 2. **GoBD-Compliant Math**: Handles subtotal, itemized tax rates (19%, 7%, 0%), discounts, and totals across EUR, USD, GBP, CHF, CAD, AUD, and JPY.
 3. **Zero Setup Overhead**: Runs on-demand via `npx` with no local cloning or dependency management required.
 
@@ -112,7 +112,7 @@ Try these directly in Claude or Cursor once configured:
 > *"Create a bilingual English/German invoice for a 2,500 € branding project with 50% upfront deposit and 14 days payment terms."*
 
 The assistant will respond with the calculated totals and a direct link:
-`https://invoice.nordible.co/de/generator#data=...`
+`https://free-invoice-generator.nordible.co/de/generator#data=...`
 
 Clicking the link instantly opens the web generator with all fields populated for 1-click PDF printing.
 
@@ -120,7 +120,7 @@ Clicking the link instantly opens the web generator with all fields populated fo
 
 ## Repository & Community
 
-* **Web Application**: [https://invoice.nordible.co](https://invoice.nordible.co)
+* **Web Application**: [https://free-invoice-generator.nordible.co](https://free-invoice-generator.nordible.co)
 * **GitHub Repository**: [https://github.com/nordible/free-invoice-generator](https://github.com/nordible/free-invoice-generator)
 * **Issues & Feedback**: [https://github.com/nordible/free-invoice-generator/issues](https://github.com/nordible/free-invoice-generator/issues)
 * **Agency Website**: [https://nordible.co](https://nordible.co)

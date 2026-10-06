@@ -16,7 +16,7 @@ const server = new McpServer({
 // Tool 1: create_invoice
 server.tool(
   "create_invoice",
-  "Generate a professional, GoBD-compliant invoice with automatic tax calculations and receive a 1-click human-in-the-loop verification & print link for https://invoice.nordible.co",
+  "Generate a professional, GoBD-compliant invoice with automatic tax calculations and receive a 1-click human-in-the-loop verification & print link for https://free-invoice-generator.nordible.co",
   {
     company: z.object({
       name: z.string().describe("Company or sender name"),
@@ -150,7 +150,7 @@ ${invoiceData.extraDiscount ? `- **Discount**: -${formatCurrency(invoiceData.ext
 ### 🔗 Human-in-the-Loop Verification & PDF Export:
 [👉 Click here to review and print this invoice on Nordible](${verificationUrl})
 
-*(Opens the live DIN A4 preview on https://invoice.nordible.co with 100% client-side privacy, ready for one-click PDF download)*
+*(Opens the live DIN A4 preview on https://free-invoice-generator.nordible.co with 100% client-side privacy, ready for one-click PDF download)*
 `;
 
     return {

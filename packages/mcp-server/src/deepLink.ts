@@ -19,7 +19,7 @@ export function encodeInvoicePayload(invoice: Partial<InvoiceData>): string {
 export function buildInvoiceVerificationLink(
   invoice: Partial<InvoiceData>,
   lang: string = "en",
-  baseUrl: string = "https://invoice.nordible.co"
+  baseUrl: string = "https://free-invoice-generator.nordible.co"
 ): string {
   const payload = encodeInvoicePayload(invoice);
   return `${baseUrl}/${lang}/generator#data=${payload}`;

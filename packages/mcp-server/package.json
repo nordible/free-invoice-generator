@@ -1,7 +1,7 @@
 {
   "name": "@nordible/invoice-mcp",
   "version": "1.0.0",
-  "description": "Model Context Protocol (MCP) server for Nordible Free Invoice Generator (https://invoice.nordible.co)",
+  "description": "Model Context Protocol (MCP) server for Nordible Free Invoice Generator (https://free-invoice-generator.nordible.co)",
   "main": "dist/index.js",
   "bin": {
     "nordible-invoice-mcp": "dist/index.js"
